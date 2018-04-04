@@ -1,0 +1,8 @@
+*.o
+*.elf
+*.srec
+*.bin
+*.d 
+*.hex 
+*.list
+COMMIT_MSG
