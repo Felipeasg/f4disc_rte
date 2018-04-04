@@ -30,7 +30,9 @@ BINARY = main
 #TOOLCHAIN_DIR := $(shell dirname `which $(CC)`)/../$(PREFIX)
 #LIBOPENCM3_DIR   = $(TOOLCHAIN_DIR)
 #LIBOPENCM3_DIR   = ../libopencm3-git
-LIBOPENCM3_DIR = ../libopencm3-nucleron
+
+#LIBOPENCM3_DIR = ../libopencm3-nucleron
+
 #LDSCRIPT = ../stm32f4-discovery.ld
 #LDSCRIPT = $(LIBOPENCM3_EXAMPLES_DIR)/examples/stm32/f4/stm32f4-discovery/stm32f4-discovery.ld
 LDSCRIPT = stm32f4disco-rte.ld
