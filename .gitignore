@@ -5,4 +5,9 @@
 *.d 
 *.hex 
 *.list
+*.lst
+*.map
 COMMIT_MSG
+.settings/
+.cproject
+.project

@@ -42,6 +42,7 @@ void plc_rtc_init(tm* time)
     PLC_BKP_RTC_IS_OK = 0;
 
     /* LSE oscillator clock used as the RTC clock */
+    /* TODO: I need to set RTC with internal clock in IOTON FIT Board */
     RCC_BDCR |= 0x00000100;
     RCC_BDCR |= RCC_BDCR_LSEON;
 

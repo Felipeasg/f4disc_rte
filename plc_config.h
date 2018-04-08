@@ -18,12 +18,15 @@
 /*
 *  PLC clocks
 */
-#define PLC_HSE_CONFIG rcc_hse_16mhz_3v3
+//#define PLC_HSE_CONFIG rcc_hse_16mhz_3v3
+#define PLC_HSE_CONFIG rcc_hse_8mhz_3v3
 #define PLC_RCC_AHB_FREQ 168
 
+#define STM32F4_DISCOVERY_2
 /*
 *  Debug USART
 */
+#ifdef IOTON
 #define DBG_USART USART1
 #define DBG_USART_PERIPH RCC_USART1
 #define DBG_USART_VECTOR NVIC_USART1_IRQ
@@ -38,85 +41,127 @@
 #define DBG_USART_TX_PERIPH RCC_GPIOA
 #define DBG_USART_RX_PERIPH RCC_GPIOA
 
+#endif
+
+#ifdef STM32F4_DISCOVERY
+
+#define DBG_USART USART3
+#define DBG_USART_PERIPH RCC_USART3
+#define DBG_USART_VECTOR NVIC_USART3_IRQ
+#define DBG_USART_ISR usart3_isr
+
+#define DBG_USART_TX_PORT GPIOD
+#define DBG_USART_RX_PORT GPIOD
+
+#define DBG_USART_TX_PIN GPIO8
+#define DBG_USART_RX_PIN GPIO9
+
+#define DBG_USART_TX_PERIPH RCC_GPIOD
+#define DBG_USART_RX_PERIPH RCC_GPIOD
+
+#endif
+
+#ifdef STM32F4_DISCOVERY_2
+
+#define DBG_USART USART3
+#define DBG_USART_PERIPH RCC_USART3
+#define DBG_USART_VECTOR NVIC_USART3_IRQ
+#define DBG_USART_ISR usart3_isr
+
+#define DBG_USART_TX_PORT GPIOC
+#define DBG_USART_RX_PORT GPIOC
+
+#define DBG_USART_TX_PIN GPIO10
+#define DBG_USART_RX_PIN GPIO11
+
+#define DBG_USART_TX_PERIPH RCC_GPIOC
+#define DBG_USART_RX_PERIPH RCC_GPIOC
+
+#endif
+
 /*
 *  Boot pin
 */
-#define PLC_BOOT_PERIPH RCC_GPIOD
-#define PLC_BOOT_PORT GPIOD
-#define PLC_BOOT_PIN GPIO10
+#define PLC_BOOT_PERIPH RCC_GPIOB
+#define PLC_BOOT_PORT GPIOB
+#define PLC_BOOT_PIN GPIO3
 
 /*
 *  PLC LEDS
 */
-#define PLC_LED_STG_PERIPH RCC_GPIOB
-#define PLC_LED_STG_PORT GPIOB
-#define PLC_LED_STG_PIN GPIO12
+#define PLC_LED_STG_PERIPH RCC_GPIOD
+#define PLC_LED_STG_PORT GPIOD
+#define PLC_LED_STG_PIN GPIO11
 
-#define PLC_LED_STR_PERIPH RCC_GPIOB
-#define PLC_LED_STR_PORT GPIOB
-#define PLC_LED_STR_PIN GPIO13
+#define PLC_LED_STR_PERIPH RCC_GPIOD
+#define PLC_LED_STR_PORT GPIOD
+#define PLC_LED_STR_PIN GPIO12
 
-#define PLC_LED3_PERIPH RCC_GPIOB
-#define PLC_LED3_PORT GPIOB
-#define PLC_LED3_PIN GPIO14
+#define PLC_LED3_PERIPH RCC_GPIOD
+#define PLC_LED3_PORT GPIOD
+#define PLC_LED3_PIN GPIO13
 
 extern void plc_heart_beat(void);
 
 #define PLC_BLINK() plc_heart_beat()
 
 /*
+ * You need to configure input/outputs in:
+ * IDE/yaplctargets/yaplc/extensions.cfg
+ * */
+/*
 * PLC Inputs
 */
-#define PLC_I1_PERIPH RCC_GPIOE
-#define PLC_I1_PORT GPIOE
+#define PLC_I1_PERIPH RCC_GPIOA     //%IX1.1
+#define PLC_I1_PORT GPIOA
 #define PLC_I1_PIN GPIO0
 
-#define PLC_I2_PERIPH RCC_GPIOB
-#define PLC_I2_PORT GPIOB
-#define PLC_I2_PIN GPIO8
+#define PLC_I2_PERIPH RCC_GPIOA 	//%IX1.2
+#define PLC_I2_PORT GPIOA
+#define PLC_I2_PIN GPIO1
 
-#define PLC_I3_PERIPH RCC_GPIOB
-#define PLC_I3_PORT GPIOB
-#define PLC_I3_PIN GPIO6
+#define PLC_I3_PERIPH RCC_GPIOA		//%IX1.3
+#define PLC_I3_PORT GPIOA
+#define PLC_I3_PIN GPIO2
 
-#define PLC_I4_PERIPH RCC_GPIOB
-#define PLC_I4_PORT GPIOB
-#define PLC_I4_PIN GPIO4
+#define PLC_I4_PERIPH RCC_GPIOA     //%IX1.4
+#define PLC_I4_PORT GPIOA
+#define PLC_I4_PIN GPIO3
 
-#define PLC_I5_PERIPH RCC_GPIOD
-#define PLC_I5_PORT GPIOD
-#define PLC_I5_PIN GPIO6
+#define PLC_I5_PERIPH RCC_GPIOA		//%IX1.5
+#define PLC_I5_PORT GPIOA
+#define PLC_I5_PIN GPIO4
 
-#define PLC_I6_PERIPH RCC_GPIOD
-#define PLC_I6_PORT GPIOD
-#define PLC_I6_PIN GPIO4
+#define PLC_I6_PERIPH RCC_GPIOA		//%IX1.6
+#define PLC_I6_PORT GPIOA
+#define PLC_I6_PIN GPIO5
 
-#define PLC_I7_PERIPH RCC_GPIOD
-#define PLC_I7_PORT GPIOD
-#define PLC_I7_PIN GPIO5
+#define PLC_I7_PERIPH RCC_GPIOA		//%IX1.7
+#define PLC_I7_PORT GPIOA
+#define PLC_I7_PIN GPIO6
 
-#define PLC_I8_PERIPH RCC_GPIOD
-#define PLC_I8_PORT GPIOD
+#define PLC_I8_PERIPH RCC_GPIOA		//%IX1.8
+#define PLC_I8_PORT GPIOA
 #define PLC_I8_PIN GPIO7
 
 /*
 * PLC Outputs
 */
-#define PLC_O1_PERIPH RCC_GPIOE
+#define PLC_O1_PERIPH RCC_GPIOE    //%QX1.1
 #define PLC_O1_PORT GPIOE
 #define PLC_O1_PIN GPIO1
 
-#define PLC_O2_PERIPH RCC_GPIOB
-#define PLC_O2_PORT GPIOB
-#define PLC_O2_PIN GPIO9
+#define PLC_O2_PERIPH RCC_GPIOE    //%QX1.2
+#define PLC_O2_PORT GPIOE
+#define PLC_O2_PIN GPIO2
 
-#define PLC_O3_PERIPH RCC_GPIOB
-#define PLC_O3_PORT GPIOB
-#define PLC_O3_PIN GPIO7
+#define PLC_O3_PERIPH RCC_GPIOE    //%QX1.3
+#define PLC_O3_PORT GPIOE
+#define PLC_O3_PIN GPIO3
 
-#define PLC_O4_PERIPH RCC_GPIOB
-#define PLC_O4_PORT GPIOB
-#define PLC_O4_PIN GPIO5
+#define PLC_O4_PERIPH RCC_GPIOE    //%QX1.1
+#define PLC_O4_PORT GPIOE
+#define PLC_O4_PIN GPIO4
 
 /*
 *  PLC system timer

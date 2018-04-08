@@ -25,6 +25,8 @@
 #include <plc_tick.h>
 #include <plc_wait_tmr.h>
 
+#include <libopencm3/stm32/gpio.h>
+
 bool plc_dbg_mode = false;
 unsigned char plc_state = PLC_STATE_STOPED;
 plc_app_abi_t * plc_curr_app = (plc_app_abi_t *)&plc_app_default;
@@ -50,6 +52,8 @@ const char plc_hw_err_msg[] = "PLC hardware is damaged!!!";
 #define PLC_RESET_HOOK() do{}while(0)
 #endif
 
+
+#if 1
 int main(void)
 {
     PLC_DISABLE_INTERRUPTS();
@@ -62,7 +66,8 @@ int main(void)
     plc_tick_init();
     plc_iom_init();
 
-    if (plc_iom_test_hw())
+
+	if (plc_iom_test_hw())
     {
         // H/W is OK, continue init...
         plc_backup_init();
@@ -122,6 +127,7 @@ int main(void)
         //May start the app immediately
         plc_app_start();
     }
+#endif
 
     while (1)
     {
@@ -143,3 +149,36 @@ int main(void)
         }
     }
 }
+
+#if 0
+int main(void)
+{
+    PLC_DISABLE_INTERRUPTS();
+
+    plc_app_default_init();
+    plc_clock_setup();
+    plc_wait_tmr_init();
+    plc_jmpr_init();
+    plc_boot_init();
+    plc_tick_init();
+    plc_iom_init();
+
+    gpio_mode_setup(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO15);
+
+
+    dbg_init();
+    PLC_ENABLE_INTERRUPTS();
+
+    int i = 0;
+    while (1)
+    {
+    	dbg_serial_write("teste", 5);
+
+    	gpio_toggle(GPIOD, GPIO15);
+
+    	for (i = 0; i < 3000000; i++) {
+    		__asm__("nop");
+    	}
+    }
+}
+#endif
