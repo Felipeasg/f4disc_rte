@@ -8,7 +8,7 @@ ARM_GCC_TOOLCHAIN_DIR ?=/home/felipe/projects_study/automation/beremiz/related-p
 STM32FLASH_DIR ?=/home/felipe/projects_study/automation/beremiz/related-projects/ioton_plc/stm32flash
 
 # BUILD CONFIG 
-LDSCRIPT = stm32f4disco-rte.ld
+LDSCRIPT = src/bsp/stm32f4/stm32f4disco-rte.ld
 
 PREFIX	?= arm-none-eabi
 
@@ -19,7 +19,7 @@ OBJDUMP =  ${ARM_GCC_TOOLCHAIN_DIR}/bin/$(PREFIX)-objdump
 GDB		=  ${ARM_GCC_TOOLCHAIN_DIR}/bin/$(PREFIX)-gdb
 SIZE	=  ${ARM_GCC_TOOLCHAIN_DIR}/bin/$(PREFIX)-size
 
-EXECUTABLE = f4disc_rte
+EXECUTABLE = tonfit_rte
 BINARY = $(EXECUTABLE).elf
 HEX	   = $(EXECUTABLE).hex
 BIN    = $(EXECUTABLE).bin
@@ -43,6 +43,10 @@ CFLAGS += -g -mthumb \
 		-I$(LIBOPENCM3_DIR)/include \
 		-I$(MATIEC_C_INCLUDE_DIR) \
 		-I./src \
+		-I./src/bsp/common \
+		-I./src/bsp/common/stm32/ \
+		-I./src/bsp/common/stm32/f4/ \
+		-I./src/bsp/stm32f4 \
 		-I.
 
 LDFLAGS 	+= -mthumb \
@@ -57,7 +61,25 @@ LDFLAGS 	+= -mthumb \
 			   -L$(ARM_GCC_TOOLCHAIN_DIR)/lib/gcc/arm-none-eabi/4.9.3/armv7e-m/fpu \
 			   -s # issue #2 (https://github.com/nucleron/RTE/issues/2)
 		
-SOURCES		= main.c xprintf.c plc_libc.c plc_clock.c plc_wait_tmr.c plc_iom.c plc_backup.c plc_rtc.c plc_glue_rte.c plc_diag.c   plc_isr_stubs.c frac_div.c plc_tick.c plc_serial.c plc_app_default.c  plc_dbg.c  plc_gpio.c dbnc_flt.c  plc_hw.c  
+SOURCES		= 	main.c \
+				xprintf.c \
+				plc_libc.c \
+				plc_iom.c \
+				plc_glue_rte.c \
+				frac_div.c \
+				plc_app_default.c  \
+				plc_dbg.c  \
+				dbnc_flt.c  \
+				bsp/stm32f4/plc_hw.c  \
+				bsp/common/stm32/plc_wait_tmr.c \
+				bsp/common/stm32/f4/plc_backup.c \
+				bsp/common/stm32/f4/plc_rtc.c \
+				bsp/common/stm32/plc_diag.c   \
+				bsp/common/stm32/f4/plc_serial.c \
+				bsp/common/stm32/f4/plc_gpio.c \
+				bsp/common/stm32/f4/plc_isr_stubs.c \
+				bsp/common/stm32/f4/plc_clock.c \
+				bsp/common/plc_tick.c 
 		   
 OBJS		= $(SOURCES:.c=.o)
 
@@ -92,6 +114,10 @@ $(LIST): $(BINARY) $(CSOURCES)
 
 clean:
 	rm -f $(SRC_DIR)/*.o *.d *.elf *.bin *.hex *.srec *.list *.map *.log
+	rm -f src/bsp/common/*.o
+	rm -f src/bsp/common/stm32/*.o
+	rm -f src/bsp/common/stm32/f4/*.o
+	rm -f src/bsp/stm32f4/*.o
 	#$(MAKE) -C $(LIBOPENCM3_DIR) clean
 
 flash_hex: $(HEX)
